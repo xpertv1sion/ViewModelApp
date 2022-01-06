@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ViewModelApp.VM;
 
 namespace ViewModelApp
 {
@@ -20,9 +21,28 @@ namespace ViewModelApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        public MainViewModel ViewModel { get; set; } = new MainViewModel();
+
         public MainWindow()
         {
+            ViewModel = ViewModel.LoadSettings();
+
             InitializeComponent();
+        }
+
+        private void Btn_Save(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ViewModel.SaveSettings();
+
+                MessageBox.Show("Settings saved");
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+           
         }
     }
 }
